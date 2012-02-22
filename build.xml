@@ -1,0 +1,156 @@
+<project name="rockstore" default="jar" basedir=".">
+    <description>
+        Build rockstore for rock store Web Service
+    </description>
+
+    <!-- set global properties for this build -->
+	<property name="version" value="0.2.4"/>
+    <property name="src" location="src" />
+    <property name="src.java" location="${src}/java" />
+    <property name="src.web"  location="${src}/web" />
+	<property name="src.test"  location="${src}/test" />
+    <property name="src.sdk"  location="${src}/sdk" />
+    <property name="bin" location="bin" />
+    <property name="lib" location="lib" />
+    <property name="conf" location="conf" />
+    <property name="console" location="console" />
+    <property name="tomcat" location="tomcat" />
+    <property name="build" location="build" />
+    <property name="build.classes" location="${build}/classes" />
+    <property name="build.jar" value="${build}/hanborq-rockstor-${version}.jar" />
+    <property name="build.jar.hbase.plugin" value="${build}/hanborq-rockstor-${version}-hbase-plugin.jar" />
+    <property name="build.jar.sdk" value="${build}/hanborq-rockstor-${version}-client.jar" />
+    <property name="build.jar.sdk.sample" value="${build}/hanborq-rockstor-${version}-client-sample.jar" />
+    <property name="build.package" value="${build}/hanborq-rockstor-${version}-bin.tar.gz" />
+
+    <target name="init">
+        <!-- Create the build directory structure used by compile -->
+        <echo message="Init build process, mkdir ${build}"/>
+        <mkdir dir="${build}"/>
+        <mkdir dir="${build.classes}"/>
+        <copy todir="${build.classes}" file="${src.java}/com/rockstor/rockstor-default.xml"/> 	
+    </target>
+
+	<condition property="linux"><equals arg1="${os.name}" arg2="Linux"/></condition>
+	
+	<target name="genVersionFile" if="linux" depends="init">
+        <exec executable="sh">
+           <arg line="src/saveVersion.sh ${version} ${src.java}"/>
+           <env key="ROCKSTOR_REVISION" value="${rockstor.hash}" />
+        </exec>  		
+	</target>
+	
+    <target name="compile" depends="init, genVersionFile"
+            description="compile the source " >
+        <!-- Compile the java code from ${src} into ${build} -->
+        <echo message="Compile java files : ${src.java}"/>
+        <!-- generate package-info annotation file. This has to be done here
+          so that the timestamp of package-info.java is newer than the timestamp
+          of the output directory -->
+  	
+        <javac srcdir="${src.java} : ${src.sdk}" debug="on" encoding="utf-8" destdir="${build.classes}">
+            <classpath>
+                <fileset dir="${lib}" />
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile"
+            description="generate the distribution jar file" >
+
+        <echo message="Make archive file : ${build.jar}"/>
+        <jar destfile="${build.jar}">
+            <manifest>
+              <section name="com/rockstor">
+                <attribute name="Implementation-Title" value="RockStor"/>
+                <attribute name="Implementation-Version" value="${version}"/>
+                <attribute name="Implementation-Vendor" value="BDE"/>
+              </section>
+            </manifest>        	
+            <fileset dir="${build.classes}">
+                <include name="**/*.class"/>
+            	<include name="**/*.xml"/>
+            </fileset>
+        </jar>
+
+        <jar destfile="${build.jar.hbase.plugin}">
+            <fileset dir="${build.classes}">
+                <include name="com/rockstor/core/db/ScanFilter.class"/>
+            </fileset>
+        </jar>
+
+    </target>
+
+    <target name="sdk" depends="compile"
+            description="generate the sdk jar file" >
+
+        <echo message="Make archive file : ${build.jar.sdk}"/>
+        <jar destfile="${build.jar.sdk}">
+            <fileset dir="${build.classes}">
+                <include name="com/rockstor/client/*.class"/>
+            </fileset>
+        </jar>
+
+        <jar destfile="${build.jar.sdk.sample}">
+            <fileset dir="${src.sdk}">
+                <include name="com/rockstor/clientsample/Sample.java"/>
+            </fileset>
+        </jar>
+    	
+    </target>
+	
+    <target name="package" depends="jar"
+            description="generate the distribution" >
+
+        <echo message="Make distribution file : ${build.package}"/>
+
+        <mkdir dir="${build}/rockstor-${version}"/>
+        <mkdir dir="${build}/rockstor-${version}/conf"/>
+        <mkdir dir="${build}/rockstor-${version}/lib"/>
+        <mkdir dir="${build}/rockstor-${version}/bin"/>
+        <mkdir dir="${build}/rockstor-${version}/logs"/>
+
+        <copy todir="${build}/rockstor-${version}/bin">
+            <fileset dir="${bin}" />
+        </copy>
+
+        <copy todir="${build}/rockstor-${version}/conf">
+            <fileset dir="${conf}" />
+        </copy>
+
+        <copy todir="${build}/rockstor-${version}/lib">
+            <fileset dir="${lib}" />
+        </copy>
+
+    	<copy todir="${build}/rockstor-${version}/lib"
+                     file="${build.jar}"/>
+
+        <tar compression="gzip" longfile="gnu" destfile="${build.package}">
+            <tarfileset dir="${build}/rockstor-${version}" prefix="hanborq-rockstor-${version}-bin">
+                <include name="**"/>
+                <exclude name="bin/*"/>
+            </tarfileset>
+            <tarfileset dir="${build}/rockstor-${version}" prefix="hanborq-rockstor-${version}-bin" mode="755">
+                <include name="bin/*.sh"/>
+                <include name="bin/rockstor"/>
+            </tarfileset>
+        </tar>
+
+        <delete dir="${build}/rockstor-${version}" />
+
+    </target>
+
+    <target name="console" description="build rockstor console package">
+      <ant antfile="${console}/build.xml" dir="${console}" target="package" inheritAll="false"/>
+      <copy file="${console}/build/hanborq-rockstor-${version}-console.tar.gz" todir="${build}"/>
+    </target>
+
+    <target name="console_clean" description="build rockstor console package">
+      <ant antfile="${console}/build.xml" dir="${console}" target="clean" inheritAll="false"/>
+      <delete file="${build}/rockstor-console.tar.gz"/>
+    </target>
+
+	<target name="clean" description="clean up">
+		<delete dir="${build}" />
+	</target>
+</project>

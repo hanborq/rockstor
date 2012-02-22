@@ -1,0 +1,122 @@
+<project name="rockstor-console" default="jar" basedir=".">
+  <description>
+    Build rockstor console server for rockstor
+  </description>
+
+  <!-- set global properties for this build -->
+  <property name="version" value="0.2.4"/>
+  <property name="final-name" value="hanborq-rockstor-${version}-console"/>
+  <property name="src" location="src" />
+  <property name="src.java" location="${src}/java" />
+  <property name="src.webapp"  location="${src}/webapp" />
+  <property name="bin" location="bin" />
+  <property name="lib" location="lib" />
+  <property name="lib.common" location="${lib}/common" />
+  <property name="lib.struts2" location="${lib}/struts2" />
+  <property name="conf" location="conf" />
+  <property name="tomcat" location="../tomcat" />
+  <property name="build" location="build" />
+  <property name="build.classes" location="${build}/classes" />
+  <property name="build.jar" value="${build}/${final-name}.jar" />
+  <property name="build.package" value="${build}/${final-name}.tar.gz" />
+
+  <target name="init">
+    <!-- Create the build directory structure used by compile -->
+    <echo message="Init build process, mkdir ${build}"/>
+    <mkdir dir="${build}"/>
+    <mkdir dir="${build.classes}"/>
+  </target>
+
+  <target name="compile" depends="init"
+            description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <echo message="Compile java files : ${src.java}"/>
+    <javac srcdir="${src.java}" debug="on" encoding="utf-8" destdir="${build.classes}">
+      <classpath>
+        <fileset dir="${lib.common}" />
+        <fileset dir="${lib.struts2}" />
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile"
+               description="generate the distribution jar file" >
+
+    <echo message="Make archive file : ${build.jar}"/>
+    <jar destfile="${build.jar}"
+         basedir="${build.classes}"
+    />
+
+  </target>
+
+	<target name="package" depends="jar"
+               description="generate the distribution" >
+
+    <echo message="Make distribution file : ${build.package}"/>
+
+    <echo message="Make package folders."/>
+    <mkdir dir="${build}/${final-name}"/>
+    <mkdir dir="${build}/${final-name}/conf"/>
+    <mkdir dir="${build}/${final-name}/lib"/>
+    <mkdir dir="${build}/${final-name}/bin"/>
+    <mkdir dir="${build}/${final-name}/logs"/>
+
+    <echo message="Copy conf, bin and common lib files."/>
+
+		<untar src="${tomcat}/apache-tomcat-6.0.20.tar.gz"
+            dest="${build}/${final-name}" compression="gzip"/>
+
+		<copy todir="${build}/${final-name}/apache-tomcat-6.0.20/bin"
+            file="${bin}/catalina.sh"/>
+		<copy todir="${build}/${final-name}/conf"
+            file="${bin}/log4j_console.properties"/>
+		<copy todir="${build}/${final-name}/bin"
+            file="${bin}/gen_cacerts.sh"/>
+		<copy todir="${build}/${final-name}/bin"
+            file="${bin}/set_classpath.sh"/>
+		<copy todir="${build}/${final-name}/bin"
+            file="${bin}/start_console.sh"/>
+		<copy todir="${build}/${final-name}/bin"
+            file="${bin}/stop_console.sh"/>
+
+    <copy todir="${build}/${final-name}/apache-tomcat-6.0.20/lib">
+      <fileset dir="${lib.common}">
+        <exclude name="jsp-api.jar"/>
+        <exclude name="servlet-api.jar"/>
+      </fileset>
+    </copy>
+    <copy todir="${build}/${final-name}/apache-tomcat-6.0.20/lib">
+      <fileset dir="${lib.struts2}"/>
+    </copy>
+
+    <copy file="${build.jar}" todir="${build}/${final-name}/apache-tomcat-6.0.20/lib"/>
+
+    <echo message="Copy ROOT files."/>
+    <delete dir="${build}/${final-name}/apache-tomcat-6.0.20/webapps/ROOT" />
+    <mkdir dir="${build}/${final-name}/apache-tomcat-6.0.20/webapps/ROOT" />
+    <copy todir="${build}/${final-name}/apache-tomcat-6.0.20/webapps/ROOT">
+      <fileset dir="${src.webapp}" />
+    </copy>
+
+    <echo message="Make distribute file."/>
+    <tar compression="gzip" longfile="gnu" destfile="${build.package}">
+      <tarfileset dir="${build}/${final-name}" prefix="${final-name}">
+        <include name="**"/>
+        <exclude name="bin/*.sh"/>
+        <exclude name="apache-tomcat-6.0.20/bin/*.sh"/>
+      </tarfileset>
+      <tarfileset dir="${build}/${final-name}" prefix="${final-name}" mode="755">
+        <include name="bin/*.sh"/>
+      </tarfileset>
+      <tarfileset dir="${build}/${final-name}" prefix="${final-name}" mode="755">
+        <include name="apache-tomcat-6.0.20/bin/*.sh"/>
+      </tarfileset>
+    </tar>
+    <delete dir="${build}/${final-name}" />
+  </target>
+
+  <target name="clean" description="clean up">
+    <delete dir="${build}" />
+  </target>
+
+</project>

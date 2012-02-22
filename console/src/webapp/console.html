@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+  Copyright 2012 Hanborq Inc.
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Rockstor</title>
+<link href="css/boxy.css" rel="stylesheet" type="text/css" />
+<link href="css/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+<script language="javascript" src="js/jquery-1.4.4.js" ></script>
+<script language="javascript" src="js/jquery.contextmenu.v2.js" ></script>
+<script language="javascript" src="js/jquery-ui-1.8.9.custom.js" ></script>
+<script language="javascript" src="js/jquery.json-2.2.js" ></script>
+<script language="javascript" src="js/jquery.json2xml.js" ></script>
+<script language="javascript" src="js/jquery.timers.js" ></script>
+<script language="javascript" src="js/md5.js" ></script>
+<script language="javascript" src="js/base64.js" ></script>
+<script language="javascript" src="js/xml2json.js" ></script>
+<script type="text/javascript" src="js/swfupload.js"></script>
+<script type="text/javascript" src="js/console-folder.js"></script>
+<script type="text/javascript" src="js/console-ui.js" ></script>
+<script type="text/javascript" src="js/console-upload.js"></script>
+<script type="text/javascript" src="js/console-session.js"></script>
+<script type="text/javascript" src="js/console-function.js"></script>
+<link href="css/rockstor.css" rel="stylesheet" type="text/css" />
+<link href="css/console.css" rel="stylesheet" type="text/css" />
+</head>
+<body oncontextmenu='return false' ondragstart='return false' onselectstart ='return false'>
+<div class="rockstor_main_frame">
+<div id="main" class="main">
+<div class="rockstor_main_top">
+Rockstor Object Storage Management
+<span id="user_name" class="rockstor_main_top_user">user</span>
+</div>
+<div id="main_top" class="main_top">
+  <div id="main_top_left" class="main_top_left">
+      <div class="title">
+        Bucket
+      </div>
+      <div class="tool">
+      <button id="new_bucket_button" onclick="javascript:showNewBucket()"><img src="images/create-bucket.png" align="absmiddle" /> New Bucket</button>
+      </div>
+      <div id="bucket_container" class="main_top_left_bucket_container">
+      </div>
+  </div>
+  <div id="main_top_middle" class="main_top_middle"></div>
+  <div id="main_top_right" class="main_top_right">
+     <div class="title">
+      Objects and Folders
+     </div>
+      <div class="tool" id="object_tool_div">
+        <div style="float:left">
+            <a id="new_folder_button" href="javascript:showCreateFolderDiv()"><img border="0" src="images/create-folder.png" align="absmiddle"/> New Folder</a>
+            <a id="upload_object_button" href="javascript:showUploadFileDiv()"><img border="0" src="images/upload.png" align="absmiddle"/> Upload</a>
+        </div>
+        <div style="float:right; padding-right:1px">
+            <a id="refresh_button" href="javascript:refreshObjectView()"><img border="0" src="images/refresh.png" align="absmiddle"/> Refresh</a>
+            <a id="properties_button" href="javascript:showPropertiesDiv()"><img border="0" src="images/properties.png" align="absmiddle"/> Properties</a>
+            <a id="actions_button" href="javascript:showActionsDiv()"><img border="0" src="images/actions.png" align="absmiddle"/> Actions</a>
+        </div>
+      </div>
+      <div id="object_title_div" class="object_title">
+        <img src="images/bucket.png" align="absmiddle" /> <span id="bucket_id"> </span>
+      </div>
+      <div id="create_folder_div" style="display:none; height:22px; width:inherit; margin-top:1px">
+        <ul id="create_folder_ul" class="object_list">
+          <li id="create_folder_li" class="object_item">
+            <img id="create_folder_png" src="images/folder.png" align="absmiddle" /> 
+            <input id="create_folder_name" type="text" style="border:#CCCCCC thin solid; width:300px; height:14px; font-size:12px; color:#666666"/> 
+            <img id="create_folder_ok" src="images/tick.png" align="absmiddle" onclick="javascript:createFolder()" /> 
+            <img id="create_folder_cancel" src="images/cross.png" align="absmiddle" onclick="$('#create_folder_div').hide('fade',500)" />
+          </li>
+        </ul>
+      </div>
+      <div id="object_container" class="main_top_right_object_container">
+      </div>
+  </div>
+</div>
+<div id="main_bottom" class="main_bottom">
+  <div id="actions_div" style="display:none">
+    <div class="title">
+      <span>Actions</span>
+      <div style="float:right; padding-right:1px">
+        <a class="bottom_close" href="javascript:clearActionList()">clear</a>
+        <a class="bottom_close" href="javascript:hideBottomDiv()">close</a> 
+      </div>
+    </div>
+    <div class="bottom_main">
+      <div class="bottom_action_div" id="bottom_action_div">
+        <ul class="bottom_action_list" id="bottom_action_list">
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="properties_div" style="display:none">
+    <div class="title">
+      <span>Properties</span>
+      <div style="float:right; padding-right:1px">
+        <a class="bottom_close" href="javascript:hideBottomDiv()">close</a> 
+      </div>
+    </div>
+    <div class="bottom_main">
+      <div id="bottom_properties_info" class="bottom_properties">
+      </div>
+      <div id="properties_operation_div" class="bottom_properties_operation">
+        <ul style="background:none; border-left:none; border-right:none; border-top:none; border-bottom:thin solid #CCCCCC">
+          <li><a href="#tabs-detail">Detail</a></li>
+          <li><a href="#tabs-acl">Acl</a></li>
+        </ul>
+        <div id="tabs-detail" style="border:none">
+          Detail
+        </div>
+        <div id="tabs-acl">
+          <div id="bottom_properties_acl_list" class="bottom_properties_operation_acl_main">
+          </div>
+          <div class="bottom_properties_operation_acl_button">
+            <button id="acl_add_button">add</button>
+            <button id="acl_save_button">save</button>
+            <button id="acl_cancel_button">cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="contextMenu" id="menu_bucket">
+  <ul>
+    <li id="menu_bucket_delete"><img src="images/delete.png" />Delete</li>
+    <li id="menu_bucket_properties"><img src="images/properties.png" />Properties</li>
+  </ul>
+</div>
+
+<div class="contextMenu" id="menu_bucket2">
+  <ul>
+    <li id="menu_bucket2_create"><img src="images/create-bucket.png" />New Bucket</li>
+    <li id="menu_bucket2_refresh"><img src="images/refresh.png" />Refresh</li>
+  </ul>
+</div>
+
+<div class="contextMenu" id="menu_object">
+  <ul id="menu_object_list">
+    <li id="menu_object_open"><img src="images/open.png" />Open</li>
+    <li id="menu_object_delete"><img src="images/delete.png" />Delete</li>
+    <li id="menu_object_rename"><img src="images/rename.png" />Rename</li>
+    <li id="menu_object_cut"><img src="images/cut.png" />Cut</li>
+    <li id="menu_object_copy"><img src="images/copy.png" />Copy</li>
+    <li id="menu_object_paste"><img src="images/paste.png" />Paste</li>
+    <li id="menu_object_properties"><img src="images/properties.png" />Properties</li>
+  </ul>
+</div>
+
+<div class="contextMenu" id="menu_object2">
+  <ul id="menu_object2_list">
+    <li id="menu_object2_create"><img src="images/create-folder.png" />New Bucket</li>
+    <li id="menu_object2_upload"><img src="images/upload.png" />Upload</li>
+    <li id="menu_object2_paste"><img src="images/paste.png" />Paste</li>
+  </ul>
+</div>
+
+<div id="create_bucket_div">
+  <div class="dialog_main_div">
+    <div id="new_bucket_message_div" class="dialog_main_message_div">
+    </div>
+    <div id="new_bucket_set_name_div" class="dialog_main_opreation_div">
+       Input Bucket Name<p>
+       <input id="new_bucket_name" type="text" />
+    </div>
+    <div id="new_bucket_set_acl_div" class="dialog_main_opreation_div">
+       Acl Setting<p>
+       <input type="radio" name="new_bucket_set_acl" value="private" checked="checked"> private<p>
+       <input type="radio" name="new_bucket_set_acl" value="public-read"> public-read<p>
+       <input type="radio" name="new_bucket_set_acl" value="public-read-write"> public-read-write<p>
+       <input type="radio" name="new_bucket_set_acl" value="authenticated-read"> authenticated-read<p>
+    </div>
+  </div>
+  <div class="dialog_button_div">
+    <button class="dialog_button" id="new_bucket_cancel_button">Close</button>
+    <button class="dialog_button" id="new_bucket_create_button">Create</button>
+    <button class="dialog_button" id="new_bucket_set_acl_button">Set Acl</button>
+    <button class="dialog_button" id="new_bucket_set_name_button">Set Bucket Name</button>
+  </div>
+</div>
+
+<div id="delete_bucket_div">
+  <div class="dialog_main_div">
+    <div id="delete_bucket_message_div" class="dialog_main_message_div">
+    </div>
+    <div class="dialog_main_opreation_div">
+      Are you sure to delete the bucket : <span id="delete_bucket_name"></span> ?
+    </div>
+  </div>
+  <div class="dialog_button_div">
+    <button class="dialog_button" id="delete_bucket_cancel_button">Close</button>
+    <button class="dialog_button" id="delete_bucket_delete_button">Delete</button>
+  </div>
+</div>
+
+<div id="delete_object_div">
+  <div class="dialog_main_div">
+    <div id="delete_bucket_message_div" class="dialog_main_message_div">
+    </div>
+    <div class="dialog_main_opreation_div">
+      <div id= "delete_bucket_tip_div">
+        Are you sure to delete seleted items?
+      </div>
+      <div id="delete_object_progress_div">
+        <div style="float:left">progress</div>
+        <div id="delete_object_progress" class="oper_progress"></div>
+      </div>
+      <div id="delete_object_detail_div" class="oper_detail">
+      </div>
+    </div>
+  </div>
+  <div class="dialog_button_div">
+    <button class="dialog_button" id="delete_object_cancel_button">Close</button>
+    <button class="dialog_button" id="delete_object_delete_button">Delete</button>
+  </div>
+</div>
+
+<div id="copy_object_div">
+  <div class="dialog_main_div">
+    <div id="copy_object_message_div" class="dialog_main_message_div">
+    </div>
+    <div class="dialog_main_opreation_div">
+      <div id= "copy_object_tip_div">
+        Are you sure to copy seleted items to here?
+      </div>
+      <div id="copy_object_progress_div">
+        <div style="float:left">progress</div>
+        <div id="copy_object_progress" class="oper_progress"></div>
+      </div>
+      <div id="copy_object_detail_div" class="oper_detail">
+      </div>
+    </div>
+  </div>
+  <div class="dialog_button_div">
+    <button class="dialog_button" id="copy_object_cancel_button">Close</button>
+    <button class="dialog_button" id="copy_object_copy_button">Copy</button>
+  </div>
+</div>
+
+<div id="move_object_div">
+  <div class="dialog_main_div">
+    <div id="omove_object_message_div" class="dialog_main_message_div">
+    </div>
+    <div class="dialog_main_opreation_div">
+      <div id= "move_object_tip_div">
+        Are you sure to move seleted items to here?
+      </div>
+      <div id="move_object_progress_div">
+        <div style="float:left">progress</div>
+        <div id="move_object_progress" class="oper_progress"></div>
+      </div>
+      <div id="move_object_detail_div" class="oper_detail">
+      </div>
+    </div>
+  </div>
+  <div class="dialog_button_div">
+    <button class="dialog_button" id="move_object_cancel_button">Close</button>
+    <button class="dialog_button" id="move_object_move_button">Move</button>
+  </div>
+</div>
+
+<div id="rename_object_div">
+  Renaming... 
+</div>
+
+<div id="upload_file_div">
+  <div class="dialog_main_div">
+    <div id="upload_file_top_div">
+       <span id="select_file_button"> </span>
+    </div>
+    <div id="upload_file_select_div" class="dialog_main_opreation_div">
+    </div>
+    <div id="upload_file_set_acl_div" class="dialog_main_opreation_div">
+       Acl Setting<p>
+       <input type="radio" name="upload_file_set_acl" value="private" checked="checked"> private<p>
+       <input type="radio" name="upload_file_set_acl" value="public-read"> public-read<p>
+       <input type="radio" name="upload_file_set_acl" value="public-read-write"> public-read-write<p>
+       <input type="radio" name="upload_file_set_acl" value="authenticated-read"> authenticated-read<p>
+       <input type="radio" name="upload_file_set_acl" value="bucket-owner-read"> bucket-owner-read<p>
+       <input type="radio" name="upload_file_set_acl" value="bucket-owner-full-control"> bucket-owner-full-control<p>
+    </div>
+    <div id="upload_file_set_meta_div" class="dialog_main_opreation_div">
+       <div id="upload_file_set_meta_container" class="upload_file_set_meta_container">
+       No Meta Items
+       </div>
+       <button id="upload_file_add_meta">Add Meta</button>
+    </div>
+    <div id="upload_file_process_div" class="dialog_main_opreation_div">
+    </div>
+  </div>
+  <div class="dialog_button_div">
+    <button class="dialog_button" id="upload_file_cancel_button">Close</button>
+    <button class="dialog_button" id="upload_file_upload_button">Upload</button>
+    <button class="dialog_button" id="upload_file_set_meta_button">Set Meta</button>
+    <button class="dialog_button" id="upload_file_set_acl_button">Set Acl</button>
+    <button class="dialog_button" id="upload_file_select_button">Select Files</button>
+  </div>
+</div>
+</div>
+</body>
+</html>
+
+<script language="javascript">
+
+var pageWidth = document.body.clientWidth;
+var pageHeight = 560 + window.screen.availHeight - 728;
+
+$(function() {
+    $("#main").css("width", pageWidth);
+    $("#main").css("height", pageHeight);
+    $("#main_top").css("height", pageHeight-40);
+    $("#main_top_right").css("width", pageWidth-225);
+    $("#main_top_left").css("height", "inherit");
+    $("#main_top_middle").css("height", "inherit");
+    $("#main_top_right").css("height", "inherit");
+    $("#bucket_container").css("height", pageHeight-40-64-5);
+    $("#object_container").css("height", pageHeight-40-64-5-30-20);
+      
+    $("#actions_div").css("width", pageWidth-10);
+    $("#bottom_action_div").css("width", pageWidth-30);
+    $("#properties_div").css("width", pageWidth-10);
+    $("#properties_operation_div").css("width", pageWidth-400);
+    $("#bottom_properties_acl_list").css("width", pageWidth-425);
+});
+
+
+var swfu;
+
+window.onLoad=new function(){
+loadUserInfo();
+
+};
+</script>

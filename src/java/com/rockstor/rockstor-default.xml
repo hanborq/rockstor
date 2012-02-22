@@ -1,0 +1,412 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2012 Hanborq Inc.
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Do not modify this file directly.  Instead, copy entries that you -->
+<!-- wish to modify from this file into core-site.xml and change them -->
+<!-- there.  If core-site.xml does not already exist, create it.      -->
+
+<configuration>
+<!--- global properties -->
+  <property>
+    <name>rockstor.rootdir</name>
+    <value>file:///tmp/rockstor-${user.name}/rockstor</value>
+    <description>The directory shared by region servers and into
+    which RockStor persists.  The URL should be 'fully-qualified'
+    to include the filesystem scheme.  For example, to specify the
+    HDFS directory '/rockstor' where the HDFS instance's namenode is
+    running at namenode.example.org on port 9000, set this value to:
+    hdfs://namenode.example.org:9000/hbase.  By default RockStor writes
+    into /tmp.  Change this configuration else all data will be lost
+    on machine restart.
+    </description>
+  </property>
+
+
+<property>
+  <name>rockstor.data.home</name>
+  <value>${rockstor.rootdir}/data</value>
+  <description>A base for other temporary directories.</description>
+</property>
+
+  <!-- compact conf-->
+<property>
+  <name>rockstor.compact.dir</name>
+  <value>${rockstor.rootdir}/tmp</value>
+  <description>Should native hadoop libraries, if present, be used.</description>
+</property>
+
+	<property>
+		<name>rockstor.compact.reduce.number</name>
+		<value>4</value>
+	</property>
+	
+	<property>
+		<name>rock.compact.lowUsage</name>
+		<value>50</value>
+	</property>
+	
+	<property>
+		<name>rock.compact.sleepBeforeClean</name>
+		<value>120000</value>
+	</property>	
+	
+
+  <!-- rockserver conf-->
+  <property>
+    <name>rock.host.name</name>
+    <value></value>
+  </property>
+
+  <property>
+  <name>rockstor.rockserver.listenPort</name>
+  <value>8080</value>
+  </property>
+
+
+<!-- auth configuration -->
+  <property>
+    <name>rockstor.auth.types</name>
+    <value>ROCK0:com.rockstor.webifc.auth.AnonymousAuthAlgorithm</value>
+    <description>
+    	ROCK0:com.rockstor.webifc.auth.AnonymousAuthAlgorithm
+    </description>
+  </property>  
+  
+  <!-- if we used SimpleMySqlAuthAlgorithm -->
+  <!-- io conf -->
+  <property>
+    <name>rock.max.size.gb</name>
+    <value>1</value>
+  </property>
+
+  <property>
+    <name>rock.hbase.cache.num</name>
+    <value>10</value>
+  </property>
+
+  <property>
+    <name>rock.reader.cache.num</name>
+    <value>10</value>
+  </property>
+
+  <property>
+    <name>rock.writer.cache.num</name>
+    <value>2</value>
+  </property>
+  
+  <!-- version conf-->
+  <property skipInDoc="true">
+    <name>rockstor.defaults.for.version</name>
+    <value>0.2.4</value>
+    <description>
+    This defaults file was compiled for version 0.2.4. This variable is used
+    to make sure that a user doesn't have an old version of rockstor-default.xml on the
+    classpath.
+    </description>
+  </property>
+
+   <!-- hbase conf -->
+  <property>
+    <name>hbase.master</name>
+    <value>localhost:60000</value>
+  </property>
+
+  <property>
+    <name>hbase.zookeeper.quorum</name>
+    <value>localhost</value>
+  </property>
+
+  <property>
+    <name>hbase.zookeeper.property.clientPort</name>
+    <value>2181</value>
+  </property> 
+    <property>
+    <name>hbase.client.write.buffer</name>
+    <value>1</value>
+    <description>Default size of the HTable clien write buffer in bytes.
+    A bigger buffer takes more memory -- on both the client and server
+    side since server instantiates the passed write buffer to process
+    it -- but a larger buffer size reduces the number of RPCs made.
+    For an estimate of server-side memory-used, evaluate
+    hbase.client.write.buffer * hbase.regionserver.handler.count
+    </description>
+  </property>
+  
+    <property>
+    <name>hbase.client.pause</name>
+    <value>1000</value>
+    <description>General client pause value.  Used mostly as value to wait
+    before running a retry of a failed get, region lookup, etc.</description>
+  </property>
+  <property>
+    <name>hbase.client.retries.number</name>
+    <value>10</value>
+    <description>Maximum retries.  Used as maximum for all retryable
+    operations such as fetching of the root region from root region
+    server, getting a cell's value, starting a row update, etc.
+    Default: 10.
+    </description>
+  </property>
+    <property>
+    <name>hbase.client.keyvalue.maxsize</name>
+    <value>10485760</value>
+    <description>Specifies the combined maximum allowed size of a KeyValue
+    instance. This is to set an upper boundary for a single entry saved in a
+    storage file. Since they cannot be split it helps avoiding that a region
+    cannot be split any further because the data is too large. It seems wise
+    to set this to a fraction of the maximum region size. Setting it to zero
+    or less disables the check.
+    </description>
+  </property>
+    <property>
+    <name>hbase.client.scanner.caching</name>
+    <value>100</value>
+    <description>Number of rows that will be fetched when calling next
+    on a scanner if it is not served from (local, client) memory. Higher
+    caching values will enable faster scanners but will eat up more memory
+    and some calls of next may take longer and longer times when the cache is empty.
+    Do not set this value such that the time between invocations is greater
+    than the scanner timeout; i.e. hbase.regionserver.lease.period
+    </description>
+  </property>
+  
+  <!-- init table -->
+  <property>
+  <name>rockstor.db.splits.class</name>
+  <value>com.rockstor.tools.DefaultTableSplit</value>
+  <description>
+  class used to split table while creating db
+  </description>
+  </property>
+
+  <property>
+  <name>rockstor.db.descriptor.generator</name>
+  <value>com.rockstor.tools.DefaultHTableGenerator</value>
+  <description>
+  class used to init htable descriptors while creating db
+  </description>
+  </property>
+  
+  <!-- table -->
+  <property>
+  <name>rockstor.table.deferredLogFlush</name>
+  <value>false</value>
+  <description>
+  </description>
+  </property>  
+  
+    <property>
+  <name>rockstor.table.maxFileSize</name>
+  <value>536870912</value>
+  <description>
+  </description>
+  </property> 
+  
+    <property>
+  <name>rockstor.table.memstoreFlushSize</name>
+  <value>67108864</value>
+  <description>
+  </description>
+  </property> 
+  
+  <!-- column family -->
+    <property>
+  <name>rockstor.table.cf.compressionType</name>
+  <value>LZO</value>
+  <description>
+  LZO,GZ,NONE
+  </description>
+  </property> 
+  
+  <property>
+  <name>rockstor.table.cf.compactionCompressType</name>
+  <value>LZO</value>
+  <description>
+  LZO,GZ,NONE
+  </description>
+  </property> 
+  
+    <property>
+  <name>rockstor.table.cf.inMemory</name>
+  <value>false</value>
+  <description>
+  </description>
+  </property> 
+  
+    <property>
+  <name>rockstor.table.cf.blockCache</name>
+  <value>true</value>
+  <description>
+  </description>
+  </property> 
+  
+    <property>
+  <name>rockstor.table.cf.blockSize</name>
+  <value>65536</value>
+  <description>
+  </description>
+  </property> 
+		    
+    <property>
+  <name>rockstor.table.cf.bloomType</name>
+  <value>ROW</value>
+  <description>
+  ROW,ROWCOL,NONE
+  </description>
+  </property> 
+  
+  
+   <property>
+      <name>rockstor.bucket.list.maxNum</name>
+      <value>100</value>
+      <description>
+       default: 100
+      </description>
+  </property>
+
+<!-- memory -->
+  <property>
+      <name>rockstor.memory.allocator.class</name>
+      <value>com.rockstor.memory.DefaultAllocator</value>
+      <description>
+       default: com.rockstor.memory.DefaultAllocator
+      </description>
+  </property>
+
+  <property>
+      <name>rockstor.memory.minBufferSize</name>
+      <value>16384</value>
+      <description>
+       default: 16K
+      </description>
+  </property>
+
+  <property>
+      <name>rockstor.memory.poolSize</name>
+      <value>1073741824</value>
+      <description>
+       default: 1G
+      </description>
+  </property>
+
+  <property>
+      <name>rockstor.memory.reservedSize</name>
+      <value>268435456</value>
+      <description>
+       default: 256M
+      </description>
+  </property>
+
+<!-- task and thread -->
+  <property>
+      <name>rockstor.threads.sleepInterval</name>
+      <value>1</value>
+      <description>
+       default: 1
+      </description>
+  </property>
+
+  <property>
+      <name>rockstor.threads.num.httpReader</name>
+      <value>4</value>
+      <description>
+       default: 
+      </description>
+  </property>
+
+  <property>
+      <name>rockstor.threads.num.httpWriter</name>
+      <value>4</value>
+      <description>
+       default: 
+      </description>
+  </property>
+
+  <property>
+      <name>rockstor.threads.num.metaReader</name>
+      <value>4</value>
+      <description>
+       default: 
+      </description>
+  </property>
+
+  <property>
+      <name>rockstor.threads.num.metaWriter</name>
+      <value>4</value>
+      <description>
+       default: 
+      </description>
+  </property>
+
+  <property>
+      <name>rockstor.threads.num.chunkReader</name>
+      <value>4</value>
+      <description>
+       default: 
+      </description>
+  </property>
+
+  <property>
+      <name>rockstor.threads.num.chunkWriter</name>
+      <value>1</value>
+      <description>
+       default: 
+      </description>
+  </property>
+
+  <property>
+      <name>rockstor.threads.num.timeout</name>
+      <value>1</value>
+      <description>
+       default: 
+      </description>
+  </property>
+
+  <property>
+      <name>rockstor.task.timeout</name>
+      <value>300000</value>
+      <description>
+       default: 5 min
+      </description>
+  </property>
+
+<!-- monitor -->
+  <property>
+      <name>rockstor.monitor.interval</name>
+      <value>120000</value>
+      <description>
+       default: 2mins
+      </description>
+  </property>
+
+  <property>
+      <name>rockstor.monitor.historyNum</name>
+      <value>15</value>
+      <description>
+       default: 15, 30mins
+      </description>
+  </property>
+
+  <property>
+      <name>rockstor.monitor.tsUnit</name>
+      <value>20</value>
+      <description>
+       default: 20ms
+      </description>
+  </property>
+</configuration>

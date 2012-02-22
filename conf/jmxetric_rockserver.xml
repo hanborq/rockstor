@@ -1,0 +1,1070 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+  Copyright 2012 Hanborq Inc.
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE jmxetric-config [
+   <!ELEMENT jmxetric-config (sample|ganglia|jvm)*>
+   <!ELEMENT sample (mbean)*>
+      <!ATTLIST sample delay CDATA #REQUIRED>
+      <!ATTLIST sample initialdelay CDATA "0">
+   <!ELEMENT mbean (attribute)*>
+      <!ATTLIST mbean name CDATA #REQUIRED>
+      <!ATTLIST mbean pname CDATA #REQUIRED>
+   <!ELEMENT attribute (composite*)>
+      <!ATTLIST attribute name CDATA #REQUIRED>
+      <!ATTLIST attribute type CDATA "" >
+      <!ATTLIST attribute units CDATA "" >
+      <!ATTLIST attribute pname CDATA "" >
+      <!ATTLIST attribute slope CDATA "both" >
+   <!ELEMENT composite EMPTY>
+      <!ATTLIST composite name CDATA #REQUIRED>
+      <!ATTLIST composite type CDATA "" >
+      <!ATTLIST composite units CDATA "" >
+      <!ATTLIST composite pname CDATA "" >
+      <!ATTLIST composite slope CDATA "both" >
+   <!ELEMENT ganglia EMPTY>
+      <!ATTLIST ganglia hostname CDATA #REQUIRED>
+      <!ATTLIST ganglia port CDATA #REQUIRED>
+      <!ATTLIST ganglia mode CDATA #REQUIRED>
+      <!ATTLIST ganglia wireformat31x CDATA #REQUIRED>
+   <!ELEMENT jvm EMPTY>
+      <!ATTLIST jvm process CDATA "">
+]>
+
+<jmxetric-config>
+
+    <!--
+     ~ ************************************************************************
+     ~ <jvm process="ProcessName"/>
+     ~   A name that is prefixed to the metric name before publication (so that
+     ~   metrics from different JVMs on the same host can be determined).
+     ~   If the "process" name is specified in -javaagent arguments,
+     ~   it overrides this specification.
+     ~
+     ~ <sample initialdelay="0" delay="60">
+     ~   In seconds. default initialdelay=0. default delay=60.
+     ~
+     ~ Support types:
+     ~   string|int8|uint8|int16|uint16|int32|uint32|float|double
+     ~   for a long type, use double here.
+     ~
+     ~  The composite within a attribute should implement CompositeData.
+     ~ ************************************************************************
+     -->
+    <jvm process="rockstor"/>
+
+    <sample initialdelay="10" delay="20">
+        <!-- worker -->
+   		<mbean name="com.rockstor.jmx.performance:type=READ_META" pname="ReadMetaThreads">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+    	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=WRITE_META" pname="WriteMetaThreads">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+    	</mbean>
+
+    	<mbean name="com.rockstor.jmx.performance:type=READ_HTTP" pname="ReadHttpThreads">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+    	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=WRITE_HTTP" pname="WriteHttpThreads">
+             <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=WRITE_CHUNK" pname="WriteChunkThreads">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=READ_CHUNK" pname="ReadChunkThreads">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+       	
+   		<mbean name="com.rockstor.jmx.performance:type=TIMEOUT" pname="TimeoutThreads">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+
+    	<!-- object op -->
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_AbortMultiPart">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_CompleteMultiPart">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+    	<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_CopyObjectTask">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_DelBucket">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_DelObject">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_GetBucketAcl">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_GetBucket">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+    	<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_GetService">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_HeadObject">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_InitMultiPart">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_ListMultiPart">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_ListParts">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_MoveObject">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_PutBucketAcl">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+     	<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_PutBucket">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_PutObjectAcl">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_PutObject">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+     	<mbean name="com.rockstor.jmx.performance:type=Task_AbortMultiPart" pname="Task_UploadPart">
+            <attribute name="TotalPendNum" pname="tPendNum" type="double" units="ops"/>
+            <attribute name="TotalThroughput" pname="tThroughput" type="double" units="ops/sec"/>
+            <attribute name="TotalAvgDelay" pname="tAvgLatancy" type="double" units="ms"/>
+            <attribute name="Total90Delay" pname="t90Latancy" type="double" units="ms"/>
+            <attribute name="TotalMinDelay" pname="tMinLatancy" type="double" units="ms"/>
+            <attribute name="TotalMaxDelay" pname="tMaxLatancy" type="double" units="ms"/>
+            <attribute name="TotalFailNum" pname="tFailNum" type="double" units="ops"/>
+
+            <attribute name="CurrentPendNum" pname="dPendNum" type="double" units="ops"/>
+            <attribute name="CurrentThroughput" pname="dThroughput" type="double" units="ops/sec"/>
+            <attribute name="CurrentMinDelay" pname="dMinLatancy" type="double" units="ms"/>
+            <attribute name="CurrentMaxDelay" pname="dMaxLatancy" type="double" units="ms"/>
+            <attribute name="CurrentAvgDelay" pname="dAvgLatancy" type="double" units="ms"/>
+            <attribute name="Current90Delay" pname="d90Latancy" type="double" units="ms"/>
+            <attribute name="CurrentFailNum" pname="dFailNum" type="double" units="ops"/>
+            
+            <!--
+            <attribute name="TotalSuccNum" pname="tSuccNum" type="double" units="ops"/>
+            <attribute name="TotalFinishNum" pname="tFinishNum" type="double" units="ops"/>
+
+            <attribute name="TotalDeliverNum" pname="tSubmitNum" type="double" units="ops"/>
+            <attribute name="TotalSuccRate" pname="tSuccRate" type="double" units="percent"/>
+            <attribute name="TotalFailRate" pname="tFailRate" type="double" units="percent"/>
+            <attribute name="TotalPendRate" pname="tPendRate" type="double" units="percent"/>
+            <attribute name="TotalFinishRate" pname="tFinishRate" type="double" units="percent"/>
+
+            <attribute name="CurrentSuccNum" pname="dSuccNum" type="double" units="ops"/>
+            <attribute name="CurrentFinishNum" pname="dFinishNum" type="double" units="ops"/>
+            <attribute name="CurrentDeliverNum" pname="dSubmitNum" type="double" units="ops"/>
+            <attribute name="CurrentSuccRate" pname="dSuccRate" type="double" units="percent"/>
+            <attribute name="CurrentFailRate" pname="dFailRate" type="double" units="percent"/>
+            <attribute name="CurrentPendRate" pname="dPendRate" type="double" units="percent"/>
+            <attribute name="CurrentFinishRate" pname="dFinishRate" type="double" units="percent"/>
+            -->
+       	</mbean>
+
+   		<!-- memory allocator-->
+     	<mbean name="com.rockstor.jmx.dynamicMemory:type=DefaultAllocator" pname="memoryAllocator">
+           <attribute name="AllocNum" pname="AllocNum" type="double" units="ops"/>
+            <attribute name="SuccNum" pname="SuccNum" type="double" units="ops"/>
+            <attribute name="HitNum" pname="HitNum" type="double"  units="ops"/>
+            <attribute name="LoseNum" pname="LoseNum" type="double"  units="ops"/>
+            <attribute name="FailNum" pname="FailNum" type="double"  units="ops"/>
+
+            <attribute name="OutgoingNum" pname="OutgoingNum" type="double" units="ops"/>
+            <attribute name="ReleaseNum" pname="ReleaseNum" type="double" units="ops"/>
+            <attribute name="UsedSpace" pname="UsedSpace" type="double" units="bytes"/>
+            <attribute name="LeftSpace" pname="LeftSpace" type="double" units="bytes"/>
+            <attribute name="CachedSpace" pname="CachedSpace" type="double" units="bytes"/>
+            <attribute name="PoolSize" pname="PoolMaxSize" type="double" units="bytes"/>
+            <attribute name="DroppedSpace" pname="DroppedSpace" type="double" units="bytes"/>
+            <attribute name="MinBlockSize" pname="MinAllocSize" type="double" units="bytes"/>
+
+            <attribute name="SuccRate" pname="SuccRate" type="double" units="percent"/>
+            <attribute name="HitRate" pname="HitRate" type="double" units="percent"/>
+            <attribute name="LoseRate" pname="LoseRate" type="double" units="percent"/>
+            <attribute name="ReleaseRate" pname="ReleaseRate" type="double" units="percent"/>
+            <attribute name="OutgoingRate" pname="OutgoingRate" type="double" units="percent"/>
+
+            <attribute name="UsedRate" pname="UsedRate" type="double" units="percent"/>
+            <attribute name="LeftRate" pname="LeftRate" type="double" units="percent"/>
+            <attribute name="CachedRate" pname="CachedRate" type="double" units="percent"/>
+            <attribute name="DroppedRate" pname="DroppedRate" type="double" units="percent"/>
+    	</mbean>
+
+    	<!-- rock read pool cache -->
+        <mbean name="com.rockstor.util:type=RockReadPool" pname="StorageReadPool">
+            <attribute name="HitRate" pname="Hit" type="double" units="Precent"/>
+            <attribute name="LostRate" pname="Lost" type="double" units="Precent"/>
+            <attribute name="OverloadRate" pname="OverLoad" type="double" units="Precent"/>
+            <attribute name="FailedRate" pname="Fail" type="double" units="Precent"/>
+            <attribute name="DropRate" pname="Drop" type="double" units="Precent"/>
+
+			<attribute name="MaxNum" pname="Max" type="double" units="HandlerNum"/>
+			<attribute name="BusyNum" pname="Busy" type="double" units="HandlerNum"/>
+			<attribute name="Size" pname="Cached" type="double" units="HandlerNum"/>
+		</mbean>
+
+        <mbean name="java.lang:type=Memory" pname="Sys_Memory">
+            <attribute name="HeapMemoryUsage">
+                <composite name="used" pname="HeapUsed" type="double" units="bytes"/>
+                <!-- <composite name="committed" pname="Heap_committed" type="double" units="bytes"/> -->
+            </attribute>
+        </mbean>
+
+        <mbean name="java.lang:type=Threading" pname="Sys_Threading">
+            <attribute name="ThreadCount" pname="ThreadCount" type="double"/>
+        </mbean>
+
+    </sample>
+
+    <!--
+     ~ ************************************************************************
+     ~ Specify the configuration of ganglia gmond. These attributes can also
+     ~ be defined in -javaagent arguments in java commandline. e.g:
+     ~ -javaagent:/full/path/to/jmxetric.jar=host=239.2.11.70,port=8649,
+     ~ mode=multicast,wireformat31x=true,config=/full/path/to/jmxetric.xml.
+     ~ But, if they are specified in -javaagent arguments, following attributes
+     ~ will be overrided.
+     ~
+     ~ hostname,port: The multicast address that is used to publish metrics
+     ~                to the ganglia gmond.
+     ~ mode:          The UDP addressing mode, either multicast or unicast
+     ~                (default multicast).
+     ~ wireformat31x: True if the ganglia v3.1.x wire format should be used
+     ~                (default false).
+     ~ ************************************************************************
+     -->
+    <ganglia hostname="239.2.11.71" port="8649" mode="multicast" wireformat31x="true"/>
+
+</jmxetric-config>

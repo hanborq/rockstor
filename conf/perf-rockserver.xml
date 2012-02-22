@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2012 Hanborq Inc.
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
+
+<!-- =============================================================== -->
+<!-- Configure the Jetty Server                                      -->
+<!--                                                                 -->
+<!-- Documentation of this file format can be found at:              -->
+<!-- http://wiki.eclipse.org/Jetty/Reference/jetty.xml_syntax        -->
+<!--                                                                 -->
+<!-- Additional configuration files are available in $JETTY_HOME/etc -->
+<!-- and can be mixed in.  For example:                              -->
+<!--   java -jar start.jar etc/jetty.xml etc/jetty-ssl.xml           -->
+<!--                                                                 -->
+<!-- See start.ini file for the default configuraton files           -->
+<!-- =============================================================== -->
+
+
+<Configure id="Server" class="com.rockstor.monitor.client.LoggerServer">
+    <!-- =========================================================== -->
+    <!-- items                                                       -->
+    <!-- =========================================================== -->
+    <Array type="com.rockstor.monitor.client.Item" id="items">
+    	<Item>
+    		<New class="com.rockstor.monitor.client.Item">
+    			<Set name="objName">com.rockstor.jmx.performance:type=PutObjectTask</Set>
+    			<Set name="attrName">DelayDistribute</Set>
+    			<Set name="interval">1800000</Set>
+    		</New>
+    	</Item>
+    	<Item>
+    		<New class="com.rockstor.monitor.client.Item">
+    			<Set name="objName">com.rockstor.jmx.performance:type=PutObjectTask</Set>
+    			<Set name="attrName">CurrentStatus</Set>
+    			<Set name="interval">120000</Set>
+    		</New>
+    	</Item>
+    </Array>
+    
+    <Array type="com.rockstor.monitor.client.RemoteServer" id="servs">
+    	<Item>
+    		<New class="com.rockstor.monitor.client.RemoteServer">
+    			<Set name="address">10.24.1.42:6888</Set>
+    			<Set name="items"><Ref id="items"/></Set>
+    		</New>
+    	</Item>
+    	<Item>
+    		<New class="com.rockstor.monitor.client.RemoteServer">
+    			<Set name="address">10.24.1.43:6888</Set>
+    			<Set name="items"><Ref id="items"/></Set>
+    		</New>
+    	</Item>
+     	<Item>
+    		<New class="com.rockstor.monitor.client.RemoteServer">
+    			<Set name="address">10.24.1.44:6888</Set>
+    			<Set name="items"><Ref id="items"/></Set>
+    		</New>
+    	</Item>
+    	<Item>
+    		<New class="com.rockstor.monitor.client.RemoteServer">
+    			<Set name="address">10.24.1.45:6888</Set>
+    			<Set name="items"><Ref id="items"/></Set>
+    		</New>
+    	</Item>    	   	
+    	<Item>
+    		<New class="com.rockstor.monitor.client.RemoteServer">
+    			<Set name="address">10.24.1.46:6888</Set>
+    			<Set name="items"><Ref id="items"/></Set>
+    		</New>
+    	</Item>  
+      	<Item>
+    		<New class="com.rockstor.monitor.client.RemoteServer">
+    			<Set name="address">10.24.1.47:6888</Set>
+    			<Set name="items"><Ref id="items"/></Set>
+    		</New>
+    	</Item>    	
+      	<Item>
+    		<New class="com.rockstor.monitor.client.RemoteServer">
+    			<Set name="address">10.24.1.48:6888</Set>
+    			<Set name="items"><Ref id="items"/></Set>
+    		</New>
+    	</Item>  
+    </Array>
+    
+    <Set name="rootDir">./pf</Set>
+ 	  <Set name="servers"><Ref id="servs"/></Set>
+  
+</Configure>

@@ -1,0 +1,91 @@
+/*
+ * Copyright 2012 Hanborq Inc.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+div{font-size:12px; font-family:Verdana, Arial, Helvetica, sans-serif; color:#333333}
+
+button{font-size:10px;}
+
+a{font-size:10px;}
+
+.bucket_list{padding:0px; margin:0px;}
+.bucket_item{list-style:none; padding-left: 1px; padding-top:10px; padding-bottom:10px; margin:0px; height:16px; width:inherit;}
+.bucket_unselected{background-color:#FFFFFF}
+.bucket_selected{background-color:#EDF0F9}
+
+.object_list{padding-left:0px; margin:0px;}
+.object_item{list-style:none; padding-left: 1px; padding-top:2px; padding-bottom:2px; margin:0px; height:16px; width:inherit;}
+.object_item_name{/*width:390px;*/ float:left}
+.object_item_size{width:150px; float:left}
+.object_item_time{width:210px; float:left}
+.object_unselected{background-color:#FFFFFF}
+.object_selected{background-color:#EDF0F9}
+
+.dialog_main_div{width:auto; height:250px; padding-top:2px; margin:0px;}
+.dialog_main_message_div{width:auto; height:30px; margin-left:20px}
+.dialog_main_opreation_div{width:auto; height:200px; margin:0px; overflow:auto;}
+.dialog_button_div{width:auto; padding-right:5px; padding-top:5px; margin:0px; border-top:#CCCCCC thin solid}
+.dialog_button{float:right}
+
+.main {background:#FFFFFF;height:540px;width:auto;}
+.main_top {height:530px;width:auto; margin-top:5px; border:#BBCCFF 5px solid;}
+.main_top_show_bottom {height:330px;width:auto; margin-top:5px; border:#BBCCFF 5px solid;}
+
+.main_top_left {background:#FFFFFF; /*height:inherit;*/ width:210px; margin-top:0px; padding-left:0px; float:left;overflow:auto; }
+.main_top_middle {background:#BBCCFF; /*height:inherit;*/ width:5px; margin-top:0px; padding-left:0px; float:left;}
+.main_top_right {background:#FFFFFF; /*height:inherit;*/ width:775px; margin-top:0px; padding-left:0px; float:left;overflow:auto; }
+
+.main_top_left_bucket_container {background:#FFFFFF; height:465px; width:100%; margin-top:0px; padding-left:0px; float:left;}
+.main_top_right_object_container{background:#FFFFFF; height:435px; width:100%; margin-top:0px; padding-left:0px; float:left;}
+.main_bottom {background:#FFFFFF; height:200px; width:auto;display:none; border-bottom: #BBCCFF 5px solid; border-left: #BBCCFF 5px solid; border-right: #BBCCFF 5px solid;}
+
+.title {background-color:#2C6189; height:30; width:auto; color:#FFFFFF; padding-top:4px; padding-left:2px; padding-bottom:4px;}
+
+.tool {background-color:#F4FEFF; height:34px; width:auto; color:#FFFFFF; padding-top:4px; padding-left:2px; padding-bottom:4px;}
+
+.bottom_close {color:#FFFFFF; font-style:normal}
+.bottom_main {background-color:#FFFFFF; height:172px; width:auto; margin:2px; }
+.bottom_action_div {color:#666666; background-color:#FFFFFF; border:#EEEEEE thin solid; height:170px;width:980px; margin: 2px; overflow:auto}
+.bottom_action_list{padding-left:0px; margin:0px;}
+.bottom_action_item{list-style:none; padding-left: 1px; padding-top:2px; padding-bottom:2px; margin:0px; height:16px; width:inherit;}
+.bottom_action_item_name{width:630px; float:left}
+.bottom_action_item_time{width:360px; float:left}
+.bottom_action_item_result{width:50px; float:left}
+
+.bottom_properties {background-color:#CCCCCC; height:168px; width:350px; float:left; margin:2px; color:#FFFFFF;}
+.bottom_properties_operation {background-color:#FFFFFF; border:none;height:160px;width:615px;float:left;margin:2px;color:#444444;}
+.table_properties {margin-top:10px;margin-left:20px;}
+.table_meta {margin-top:10px;margin-left:20px;}
+.bottom_properties_operation_acl_main {border:#EEEEEE thin solid; background:#FFFFFF; height:90px; width:590px; margin:0px; overflow:auto}
+.bottom_properties_operation_acl_button {background:#FFFFFF; margin:2px; float:right}
+.acl_list{padding-left:0px; margin:0px;}
+.acl_item{list-style:none; padding-left: 1px; padding-top:2px; padding-bottom:2px; margin:0px; height:14px; width:inherit;}
+
+.progress{height:10px; width:140px; background-color:#99FF66; border:#99FFFF thin solid}
+.object_title {background-color:#E3E9FF; height:20px; width:auto; color:#222222; padding-top:4px; padding-left:2px; padding-bottom:4px; }
+
+.oper_progress{height:15px; width:400px; background-color:#99FF66; border:#99FFFF thin solid; float:left}
+.oper_detail{height:160px; width:500px; background-color:#FFFFFF; border:#CCCCCC thin solid; padding-top:10px; overflow:auto}
+.oper_detail_list{padding-left:0px; margin:0px;}
+.oper_detail_item{list-style:none; padding-left: 1px; padding-top:2px; padding-bottom:2px; margin:0px; height:16px; width:inherit;}
+
+.upload_file_set_meta_container{width:auto; height:160px; margin:0px; overflow:auto; border:#CCCCCC thin solid}
+.upload_file_meta_list{padding-left:0px; margin:0px;}
+.upload_file_meta_item{list-style:none; padding-left: 1px; padding-top:2px; padding-bottom:2px; margin:0px; height:16px; width:inherit;}
+.upload_select_list{padding-left:0px; margin:0px;}
+.upload_select_item{list-style:none; padding-left: 1px; padding-top:2px; padding-bottom:2px; margin:0px; height:16px; width:inherit;}
+
+.upload_ing_list{padding-left:0px; margin:0px;}
+.upload_ing_item{list-style:none; padding-left: 1px; padding-top:2px; padding-bottom:2px; margin:0px; height:16px; width:inherit;}

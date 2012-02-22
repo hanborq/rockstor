@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+  Copyright 2012 Hanborq Inc.
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Rockstor</title>
+<link href="css/boxy.css" rel="stylesheet" type="text/css" />
+<link href="css/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+<script language="javascript" src="js/jquery-1.4.4.js" ></script>
+<script language="javascript" src="js/jquery-ui-1.8.9.custom.js" ></script>
+<link href="css/rockstor.css" rel="stylesheet" type="text/css" />
+<link href="css/console.css" rel="stylesheet" type="text/css" />
+<script language="javascript">
+function login()
+{
+  var username = document.getElementById("userName").value;
+  if (jQuery.trim(username)==""){
+    alert("Username cannot be NULL");
+    return;
+  }
+  $.ajax({
+      url: '/oper/NoAuthLogin.action',
+      type: 'POST',
+      data: 'username='+username,
+      success: function(m){
+          window.location.href="/";
+      },
+      error: function(){
+          alert('登录失败');
+      }
+  });
+}
+
+  $("#user_name").html("loding user info ...");
+
+
+</script>
+
+</head>
+<body oncontextmenu='return false' ondragstart='return false' onselectstart ='return false'>
+<div class="rockstor_main_frame">
+<div id="main" class="main">
+<div class="rockstor_main_top">
+Rockstor Object Storage Management
+<span id="user_name" class="rockstor_main_top_user"></span>
+</div>
+<div style="border:thin #BBCCFF solid; width:600px; height:200px; margin-top:100px; margin-left:auto; margin-right:auto">
+
+  <div style="border:thin #BBCCFF ; width:400px; height:100px; margin-top:50px; margin-left:auto; margin-right:auto">
+    <span> Username : </span><input id="userName" value="" type="text"> <button id="NoAuthLogin" onclick="javascript:login()">Login</button>
+  </div>
+
+</div>
+</div>
+</body>
+</html>
+
+<script language="javascript">
+
+$(function() {
+  $("#NoAuthLogin").button();
+  $("#userName").bind("keypress", function(e){
+    if (13 == e.which) {
+      login();
+    }
+  });
+});
+
+</script>

@@ -1,0 +1,83 @@
+<!--
+  Copyright 2012 Hanborq Inc.
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<web-app>
+
+  <filter>
+    <filter-name>struts2</filter-name>
+    <filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
+  </filter>
+    
+  <filter-mapping>
+    <filter-name>struts2</filter-name>
+    <url-pattern>/oper/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>NoAuth Filter</filter-name>
+    <filter-class>com.bigdata.rockstor.console.UserNoAuthFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>NoAuth Filter</filter-name>
+    <url-pattern>/console.html</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>NoAuth Filter</filter-name>
+    <url-pattern>/oper/*</url-pattern>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>InitServlet</servlet-name>
+    <display-name>init https</display-name>
+    <servlet-class>com.bigdata.rockstor.console.InitServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>rest.auth.prot</param-name>
+      <param-value>ROCK0</param-value>
+    </init-param>
+    <init-param>
+      <param-name>rest.site</param-name>
+      <param-value>http://10.24.1.252:8080/</param-value>
+    </init-param>
+    <init-param>
+      <param-name>public.site</param-name>
+      <param-value>http://10.24.1.252:8080/</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>InitServlet</servlet-name>
+    <url-pattern>/index</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>UploadServlet</servlet-name>
+      <display-name>upload</display-name>
+      <servlet-class>
+        com.bigdata.rockstor.console.UploadServlet
+      </servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UploadServlet</servlet-name>
+    <url-pattern>/upload</url-pattern>
+  </servlet-mapping>
+
+  <welcome-file-list>
+    <welcome-file>console.html</welcome-file>
+  </welcome-file-list>
+</web-app>

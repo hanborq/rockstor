@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!--
+  Copyright 2012 Hanborq Inc.
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!-- Do not modify this file directly.  Instead, copy entries that you -->
+<!-- wish to modify from this file into core-site.xml and change them -->
+<!-- there.  If core-site.xml does not already exist, create it.      -->
+
+<configuration>
+  <property>
+    <name>rock.bucket.name.regex</name>
+    <value>[A-Za-z0-9_]{0,64}</value>
+  </property>
+
+  <!--- global properties -->
+  <property>
+    <name>rockstor.rootdir</name>
+    <value>hdfs://nd1-rack2-cloud:9000/rockstor</value>
+    <description>The directory shared by region servers and into
+    which RockStor persists.  The URL should be 'fully-qualified'
+    to include the filesystem scheme.  For example, to specify the
+    HDFS directory '/rockstor' where the HDFS instance's namenode is
+    running at namenode.example.org on port 9000, set this value to:
+    hdfs://namenode.example.org:9000/hbase.  By default RockStor writes
+    into /tmp.  Change this configuration else all data will be lost
+    on machine restart.
+    </description>
+  </property>
+  <!--	
+  <property skipInDoc="true">
+    <name>rockstor.defaults.for.version</name>
+    <value>0.2.1-BDE1B1</value>
+    <description>
+    This defaults file was compiled for version 0.2.1-BDE1B1. This variable is used
+    to make sure that a user doesn't have an old version of rockstor-default.xml on the
+    classpath.
+    </description>
+   </property>
+  -->	
+  <property>
+    <name>rockstor.compact.reduce.number</name>
+    <value>4</value>
+  </property>
+
+  <property>
+    <name>rock.compact.lowUsage</name>
+    <value>50</value>
+  </property>
+
+  <property>
+    <name>rock.compact.sleepBeforeClean</name>
+    <value>120000</value>
+  </property>
+
+  <!-- hbase conf -->
+  <property>
+    <name>hbase.master</name>
+    <value>nd1-rack2-cloud:60000</value>
+  </property>
+
+  <property>
+    <name>hbase.zookeeper.quorum</name>
+    <value>nd1-rack2-cloud</value>
+  </property>
+
+  <property>
+    <name>hbase.zookeeper.property.clientPort</name>
+    <value>2181</value>
+  </property>
+
+  <!-- basic conf-->
+  <property>
+    <name>rockstor.rockserver.listenPort</name>
+    <value>48080</value>
+  </property>
+
+  <property>
+    <name>rock.host.name</name>
+    <value></value>
+  </property>
+
+  <property>
+    <name>rock.max.size.gb</name>
+    <value>1</value>
+  </property>
+  
+  <property>
+    <name>rock.reader.cache.num</name>
+    <value>1024</value>
+  </property>
+
+  <!-- init table -->
+  <property>
+    <name>rock.hbase.cache.num</name>
+    <value>20</value>
+  </property>
+
+  <property>
+    <name>rockstor.table.cf.compressionType</name>
+    <value>LZO</value>
+    <description>
+      LZO,GZ,NONE
+    </description>
+  </property>
+
+  <property>
+    <name>rockstor.table.cf.compactionCompressType</name>
+    <value>LZO</value>
+    <description>
+      LZO,GZ,NONE
+    </description>
+  </property>
+
+  <!-- task and thread -->
+  <property>
+    <name>rockstor.threads.sleepInterval</name>
+    <value>1</value>
+    <description>
+      default: 1
+    </description>
+  </property>
+
+  <property>
+    <name>rockstor.threads.num.httpReader</name>
+    <value>8</value>
+    <description>
+      default: 
+    </description>
+  </property>
+
+  <property>
+    <name>rockstor.threads.num.httpWriter</name>
+    <value>4</value>
+    <description>
+      default: 
+    </description>
+  </property>
+
+  <property>
+    <name>rockstor.threads.num.metaReader</name>
+    <value>10</value>
+    <description>
+      default: 
+    </description>
+  </property>
+
+  <property>
+    <name>rockstor.threads.num.metaWriter</name>
+    <value>10</value>
+    <description>
+      default: 
+    </description>
+  </property>
+
+  <property>
+    <name>rockstor.threads.num.chunkReader</name>
+    <value>4</value>
+    <description>
+      default: 
+    </description>
+  </property>
+
+  <property>
+    <name>rockstor.threads.num.chunkWriter</name>
+    <value>2</value>
+    <description>
+      default: 
+    </description>
+  </property>
+
+  <property>
+    <name>rockstor.threads.num.timeout</name>
+    <value>1</value>
+    <description>
+      default: 
+    </description>
+  </property>
+
+  <property>
+    <name>rockstor.task.timeout</name>
+    <value>300000</value>
+    <description>
+      default: 5 min
+    </description>
+  </property>
+
+<!-- monitor -->
+  <property>
+    <name>rockstor.monitor.interval</name>
+    <value>120000</value>
+    <description>
+      default: 2mins
+    </description>
+  </property>
+
+  <property>
+    <name>rockstor.monitor.historyNum</name>
+    <value>15</value>
+    <description>
+      default: 15, 30mins
+    </description>
+  </property>
+
+  <property>
+    <name>rockstor.monitor.tsUnit</name>
+    <value>20</value>
+    <description>
+      default: 20ms
+    </description>
+  </property>
+
+</configuration>
